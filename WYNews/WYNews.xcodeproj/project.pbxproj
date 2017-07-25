@@ -62,6 +62,7 @@
 		566D40291F26DF7D009BD18C /* UIViewController+CZAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CZAddition.m"; sourceTree = "<group>"; };
 		566D40361F26E20A009BD18C /* WYNewsMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYNewsMainViewController.h; sourceTree = "<group>"; };
 		566D40371F26E20A009BD18C /* WYNewsMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYNewsMainViewController.m; sourceTree = "<group>"; };
+		566D40391F26E473009BD18C /* MYNews.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MYNews.pch; sourceTree = "<group>"; };
 		76C0A5236BA137847C681458 /* Pods_WYNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2DE342EAF718C8F67CF7F09 /* Pods-WYNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WYNews/Pods-WYNews.debug.xcconfig"; sourceTree = "<group>"; };
 		DFD508806BDEE0D17D665EFE /* Pods-WYNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYNews/Pods-WYNews.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +117,7 @@
 				566D40031F26DF1A009BD18C /* LaunchScreen.storyboard */,
 				566D40061F26DF1A009BD18C /* Info.plist */,
 				566D3FF61F26DF1A009BD18C /* main.m */,
+				566D40391F26E473009BD18C /* MYNews.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -449,6 +451,7 @@
 			baseConfigurationReference = C2DE342EAF718C8F67CF7F09 /* Pods-WYNews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = WYNews/MYNews.pch;
 				INFOPLIST_FILE = WYNews/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -462,6 +465,7 @@
 			baseConfigurationReference = DFD508806BDEE0D17D665EFE /* Pods-WYNews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = WYNews/MYNews.pch;
 				INFOPLIST_FILE = WYNews/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
