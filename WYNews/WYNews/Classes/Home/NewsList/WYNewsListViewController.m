@@ -9,8 +9,6 @@
 #import "WYNewsListViewController.h"
 #import "WYNewsListCell.h"
 #import "WYNewsItem.h"
-#import "UIImageView+WebCache.h"
-
 
 @interface WYNewsListViewController ()<UITableViewDataSource>
 @property (nonatomic, weak) UITableView *tableView;
@@ -76,7 +74,7 @@ static NSString *defaultCellId = @"defaultCellId";
     
     WYNewsItem *model = _newsItems[indexPath.row];
     
-    [cell.iconView sd_setImageWithURL:[NSURL URLWithString:model.imgsrc]];
+    [cell.iconView jj_setImageWithUrl:model.imgsrc];
     cell.titleLabel.text = model.title;
     cell.replyLabel.text = @(model.replyCount).description;
     
