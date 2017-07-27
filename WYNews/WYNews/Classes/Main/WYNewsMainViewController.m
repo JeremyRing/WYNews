@@ -16,22 +16,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setChildViewControllers];
+    
+    [self setAppearance];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setAppearance{
+//    [self.tabBar setTintColor:[UIColor cz_colorWithHex:0xDF0000]];
+    [[UITabBar appearance] setTintColor:[UIColor cz_colorWithHex:0xDF0000]];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setChildViewControllers{
+    UIViewController *newsVC = [self addChildControllerWithClsName:@"WYHomeViewController" title:@"首页" imageName:@"tabbar_news" selectedImageName:@"tabbar_news_highlighted"];
+    UIViewController *importantNewsVC = [self addChildControllerWithClsName:@"UIViewController" title:@"要闻" imageName:@"tabbar_icon_importantNews_normal" selectedImageName:@"tabbar_icon_importantNews_highlight"];
+    UIViewController *liveVC = [self addChildControllerWithClsName:@"UIViewController" title:@"直播" imageName:@"tabbar_icon_live_normal" selectedImageName:@"tabbar_icon_live_highlight"];
+    UIViewController *videoVC = [self addChildControllerWithClsName:@"UIViewController" title:@"视频" imageName:@"tabbar_video" selectedImageName:@"tabbar_video_highlighted"];
+    UIViewController *mineVC = [self addChildControllerWithClsName:@"UIViewController" title:@"我" imageName:@"tabbar_icon_me_normal" selectedImageName:@"tabbar_icon_me_highlight"];
+    
+    self.viewControllers = @[newsVC,importantNewsVC,liveVC,videoVC,mineVC];
+    
 }
-*/
+
+- (UIViewController *)addChildControllerWithClsName:(NSString *)clsName title:(NSString *)title imageName:(NSString *)imgName selectedImageName:(NSString *)selImageName{
+    Class cls = NSClassFromString(@"UIViewController");
+    
+    NSAssert(cls != nil, @"传入错误的控制器名称");
+    
+    UIViewController *vc = [cls new];
+    
+    vc.view.backgroundColor = [UIColor whiteColor];
+    
+    vc.title = title;
+    vc.tabBarItem.image = [[UIImage imageNamed:imgName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    vc.tabBarItem.selectedImage = [[UIImage imageNamed:selImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    return vc;
+}
+
+
 
 @end

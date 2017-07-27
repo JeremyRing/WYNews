@@ -9,7 +9,10 @@
 #if __OBJC__
 
 #import "Masonry.h"
+
 #import "YYModel.h"
+
+#import "JJNetWorkManager.h"
 #import "CZAdditions.h"
 
 #endif
