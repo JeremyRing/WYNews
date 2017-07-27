@@ -39,7 +39,7 @@
 }
 
 - (UIViewController *)addChildControllerWithClsName:(NSString *)clsName title:(NSString *)title imageName:(NSString *)imgName selectedImageName:(NSString *)selImageName{
-    Class cls = NSClassFromString(@"UIViewController");
+    Class cls = NSClassFromString(clsName);
     
     NSAssert(cls != nil, @"传入错误的控制器名称");
     
@@ -52,7 +52,9 @@
     
     vc.tabBarItem.selectedImage = [[UIImage imageNamed:selImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    return vc;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    return nav;
 }
 
 

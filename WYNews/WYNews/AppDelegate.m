@@ -19,7 +19,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    Class cls = NSClassFromString(@"WYNewsListViewController");
+    Class cls = NSClassFromString(@"WYNewsMainViewController");
     
     UIViewController *rootVC = [cls new];
     

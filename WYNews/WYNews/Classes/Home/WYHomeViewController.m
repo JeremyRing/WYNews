@@ -7,31 +7,55 @@
 //
 
 #import "WYHomeViewController.h"
+#import "WYChannel.h"
+#import "WYChannelView.h"
 
 @interface WYHomeViewController ()
-
+@property (nonatomic, weak) WYChannelView *channelView;
 @end
 
-@implementation WYHomeViewController
+@implementation WYHomeViewController{
+    NSArray <WYChannel *>*_channelList;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupUI];
+    
+    [self loadData];
+    
+    self.channelView.channelList = _channelList;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+/// 搭建界面
+- (void)setupUI{
+    WYChannelView *channelView = [WYChannelView channelView];
+    [self.view addSubview:channelView];
+    
+    [channelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(38);
+        make.top.equalTo(self.mas_topLayoutGuideBottom);
+    }];
+    
+    self.channelView = channelView;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+/**
+ * 加载数据
+ */
+- (void)loadData{
+    [self loadChannelList];
 }
-*/
+
+- (void)loadChannelList{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"topic_news.json" ofType:nil];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+    NSArray *array = dict[@"tList"];
+    
+    _channelList = [NSArray yy_modelArrayWithClass:[WYChannel class] json:array];
+}
 
 @end
