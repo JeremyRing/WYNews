@@ -67,6 +67,9 @@ static NSString *headerCellId = @"headerCellId";
     
     // 设置取消分割线
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    // 设置 contentInset
+    tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
 }
 
 #pragma mark - UITableViewDataSource
