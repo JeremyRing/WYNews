@@ -17,6 +17,7 @@
 static NSString *defaultCellId = @"defaultCellId";
 static NSString *multiImageCellId = @"multiImageCellId";
 static NSString *bigImageCellId = @"bigImageCellId";
+static NSString *headerCellId = @"headerCellId";
 
 @implementation WYNewsListViewController{
     NSArray <WYNewsItem *>*_newsItems;
@@ -58,6 +59,8 @@ static NSString *bigImageCellId = @"bigImageCellId";
     // 注册多图的cell
     [tableView registerNib:[UINib nibWithNibName:@"WYNewsListMultiImageCell" bundle:nil] forCellReuseIdentifier:multiImageCellId];
     [tableView registerNib:[UINib nibWithNibName:@"WYNewsListBigImageCell" bundle:nil] forCellReuseIdentifier:bigImageCellId];
+    [tableView registerNib:[UINib nibWithNibName:@"WYNewsListHeaderCell" bundle:nil] forCellReuseIdentifier:headerCellId];
+    
     // 设置自动行高
     tableView.estimatedRowHeight = 100;
     tableView.rowHeight = UITableViewAutomaticDimension;
@@ -77,8 +80,9 @@ static NSString *bigImageCellId = @"bigImageCellId";
     WYNewsItem *model = _newsItems[indexPath.row];
     
     NSString *cellId;
-    
-    if (model.imgType) {
+    if (model.hasHead) {
+        cellId = headerCellId;
+    } else if (model.imgType) {
         cellId = bigImageCellId;
     } else if (model.imgextra.count > 0) {
         cellId = multiImageCellId;
