@@ -16,6 +16,7 @@
 
 static NSString *defaultCellId = @"defaultCellId";
 static NSString *multiImageCellId = @"multiImageCellId";
+static NSString *bigImageCellId = @"bigImageCellId";
 
 @implementation WYNewsListViewController{
     NSArray <WYNewsItem *>*_newsItems;
@@ -56,7 +57,7 @@ static NSString *multiImageCellId = @"multiImageCellId";
     [tableView registerNib:[UINib nibWithNibName:@"WYNewsListDefaultCell" bundle:nil] forCellReuseIdentifier:defaultCellId];
     // 注册多图的cell
     [tableView registerNib:[UINib nibWithNibName:@"WYNewsListMultiImageCell" bundle:nil] forCellReuseIdentifier:multiImageCellId];
-    
+    [tableView registerNib:[UINib nibWithNibName:@"WYNewsListBigImageCell" bundle:nil] forCellReuseIdentifier:bigImageCellId];
     // 设置自动行高
     tableView.estimatedRowHeight = 100;
     tableView.rowHeight = UITableViewAutomaticDimension;
@@ -74,17 +75,20 @@ static NSString *multiImageCellId = @"multiImageCellId";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     WYNewsItem *model = _newsItems[indexPath.row];
-    WYNewsListCell *cell;
-    if (model.imgextra.count > 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:multiImageCellId forIndexPath:indexPath];
-    }
-    else {
-        cell = [tableView dequeueReusableCellWithIdentifier:defaultCellId forIndexPath:indexPath];
-        
-        cell.sourceLabel.text = model.source;
+    
+    NSString *cellId;
+    
+    if (model.imgType) {
+        cellId = bigImageCellId;
+    } else if (model.imgextra.count > 0) {
+        cellId = multiImageCellId;
+    } else {
+        cellId = defaultCellId;
     }
     
+    WYNewsListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
     
+    cell.sourceLabel.text = model.source;
     [cell.iconView jj_setImageWithUrl:model.imgsrc];
     cell.titleLabel.text = model.title;
     cell.replyLabel.text = @(model.replyCount).description;
