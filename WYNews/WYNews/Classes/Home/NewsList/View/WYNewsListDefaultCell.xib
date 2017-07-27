@@ -32,8 +32,8 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iay-AH-ilv">
-                        <rect key="frame" x="285" y="72" width="27" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <rect key="frame" x="283.5" y="70.5" width="28.5" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -44,9 +44,16 @@
                             <constraint firstAttribute="height" constant="1" id="7Fa-2U-7tL"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xJ-zd-K06">
+                        <rect key="frame" x="125" y="70.5" width="28.5" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="odt-Ip-CVU" secondAttribute="trailing" constant="-8" id="5TJ-HN-vXq"/>
+                    <constraint firstItem="9xJ-zd-K06" firstAttribute="leading" secondItem="OpH-yD-dLZ" secondAttribute="leading" id="69p-ZZ-W2a"/>
                     <constraint firstAttribute="bottomMargin" secondItem="QO6-EV-QyW" secondAttribute="bottom" constant="-1" id="9lr-MI-oEQ"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Iay-AH-ilv" secondAttribute="trailing" id="AnJ-YR-9kp"/>
                     <constraint firstItem="QO6-EV-QyW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Ed0-vL-l5E"/>
@@ -55,6 +62,7 @@
                     <constraint firstItem="Iay-AH-ilv" firstAttribute="bottom" secondItem="QO6-EV-QyW" secondAttribute="bottom" id="VDs-tg-Od9"/>
                     <constraint firstItem="OpH-yD-dLZ" firstAttribute="leading" secondItem="QO6-EV-QyW" secondAttribute="trailing" constant="13" id="bAA-em-DaR"/>
                     <constraint firstItem="QO6-EV-QyW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="bKN-Gr-Qz3"/>
+                    <constraint firstItem="9xJ-zd-K06" firstAttribute="bottom" secondItem="QO6-EV-QyW" secondAttribute="bottom" id="jxN-3a-2dZ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="odt-Ip-CVU" secondAttribute="bottom" constant="-9" id="trU-DS-dTy"/>
                     <constraint firstItem="odt-Ip-CVU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="zu2-Fb-GEY"/>
                 </constraints>
@@ -63,9 +71,10 @@
             <connections>
                 <outlet property="iconView" destination="QO6-EV-QyW" id="iVs-Ot-Ru7"/>
                 <outlet property="replyLabel" destination="Iay-AH-ilv" id="y8m-vy-J4h"/>
+                <outlet property="sourceLabel" destination="9xJ-zd-K06" id="Ky5-P0-SY5"/>
                 <outlet property="titleLabel" destination="OpH-yD-dLZ" id="mX1-Hj-T63"/>
             </connections>
-            <point key="canvasLocation" x="-47" y="-213"/>
+            <point key="canvasLocation" x="-164" y="-252"/>
         </tableViewCell>
     </objects>
 </document>

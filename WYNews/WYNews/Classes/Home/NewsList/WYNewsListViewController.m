@@ -15,6 +15,7 @@
 @end
 
 static NSString *defaultCellId = @"defaultCellId";
+static NSString *multiImageCellId = @"multiImageCellId";
 
 @implementation WYNewsListViewController{
     NSArray <WYNewsItem *>*_newsItems;
@@ -53,6 +54,8 @@ static NSString *defaultCellId = @"defaultCellId";
     
     // 注册默认的cell
     [tableView registerNib:[UINib nibWithNibName:@"WYNewsListDefaultCell" bundle:nil] forCellReuseIdentifier:defaultCellId];
+    // 注册多图的cell
+    [tableView registerNib:[UINib nibWithNibName:@"WYNewsListMultiImageCell" bundle:nil] forCellReuseIdentifier:multiImageCellId];
     
     // 设置自动行高
     tableView.estimatedRowHeight = 100;
@@ -70,13 +73,29 @@ static NSString *defaultCellId = @"defaultCellId";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    WYNewsListCell *cell = [tableView dequeueReusableCellWithIdentifier:defaultCellId forIndexPath:indexPath];
-    
     WYNewsItem *model = _newsItems[indexPath.row];
+    WYNewsListCell *cell;
+    if (model.imgextra.count > 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:multiImageCellId forIndexPath:indexPath];
+    }
+    else {
+        cell = [tableView dequeueReusableCellWithIdentifier:defaultCellId forIndexPath:indexPath];
+        
+        cell.sourceLabel.text = model.source;
+    }
+    
     
     [cell.iconView jj_setImageWithUrl:model.imgsrc];
     cell.titleLabel.text = model.title;
     cell.replyLabel.text = @(model.replyCount).description;
+    
+    // 设置多图 － 如果没有不会进入循环
+    NSInteger idx = 0;
+    for (NSDictionary *dict in model.imgextra) {
+        
+        // 设置图像
+        [cell.extraIcon[idx++] jj_setImageWithUrl:dict[@"imgsrc"]];
+    }
     
     return cell;
 }

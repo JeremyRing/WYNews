@@ -12,5 +12,8 @@
 @property (nonatomic, weak) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *replyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *sourceLabel;
 
+
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *extraIcon;
 @end
