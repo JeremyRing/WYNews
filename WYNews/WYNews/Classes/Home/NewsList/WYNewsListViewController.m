@@ -7,7 +7,10 @@
 //
 
 #import "WYNewsListViewController.h"
+#import "WYNewsListCell.h"
 #import "WYNewsItem.h"
+#import "UIImageView+WebCache.h"
+
 
 @interface WYNewsListViewController ()<UITableViewDataSource>
 @property (nonatomic, weak) UITableView *tableView;
@@ -50,8 +53,15 @@ static NSString *defaultCellId = @"defaultCellId";
     
     self.tableView = tableView;
     
-    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:defaultCellId];
+    // 注册默认的cell
+    [tableView registerNib:[UINib nibWithNibName:@"WYNewsListDefaultCell" bundle:nil] forCellReuseIdentifier:defaultCellId];
     
+    // 设置自动行高
+    tableView.estimatedRowHeight = 100;
+    tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    // 设置取消分割线
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 #pragma mark - UITableViewDataSource
@@ -62,11 +72,13 @@ static NSString *defaultCellId = @"defaultCellId";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:defaultCellId forIndexPath:indexPath];
+    WYNewsListCell *cell = [tableView dequeueReusableCellWithIdentifier:defaultCellId forIndexPath:indexPath];
     
     WYNewsItem *model = _newsItems[indexPath.row];
     
-    cell.textLabel.text = model.title;
+    [cell.iconView sd_setImageWithURL:[NSURL URLWithString:model.imgsrc]];
+    cell.titleLabel.text = model.title;
+    cell.replyLabel.text = @(model.replyCount).description;
     
     return cell;
 }
