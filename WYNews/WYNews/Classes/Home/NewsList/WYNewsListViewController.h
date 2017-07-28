@@ -10,4 +10,8 @@
 
 @interface WYNewsListViewController : UIViewController
 
+@property (nonatomic, assign, readonly) NSInteger index;
+@property (nonatomic, copy, readonly) NSString *tid;
+
+- (instancetype)initWithChennalIndex:(NSInteger)index tid:(NSString *)tid;
 @end

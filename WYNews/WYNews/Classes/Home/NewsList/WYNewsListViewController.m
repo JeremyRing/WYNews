@@ -33,7 +33,7 @@ static NSString *headerCellId = @"headerCellId";
 
 - (void)loadData{
     
-    [[JJNetWorkManager sharedManager] newsListWithChannel:@"T1348648517839" start:0 completion:^(NSArray *list, NSError *error) {
+    [[JJNetWorkManager sharedManager] newsListWithChannel:_tid start:0 completion:^(NSArray *list, NSError *error) {
         if (error != nil) {
             NSLog(@"加载数据错误 %@error",error);
         }
@@ -109,6 +109,18 @@ static NSString *headerCellId = @"headerCellId";
     }
     
     return cell;
+}
+
+#pragma mark - obj method
+
+- (instancetype)initWithChennalIndex:(NSInteger)index tid:(NSString *)tid{
+    self = [super initWithNibName:nil bundle:nil];
+    
+    _index = index;
+    _tid = tid;
+    
+    return self;
+    
 }
 
 @end

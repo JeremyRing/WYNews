@@ -11,4 +11,6 @@
 @interface WYChannel : NSObject
 @property (nonatomic, copy) NSString *tid;
 @property (nonatomic, copy) NSString *tname;
+
++ (NSArray <WYChannel *>*)channels;
 @end

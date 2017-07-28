@@ -34,7 +34,7 @@
         completion(responseObject,nil);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"请求错误 %@",error);
+        NSLog(@"请求错误 url:%@ %@",task.currentRequest.URL.absoluteString ,error);
         
         completion(nil,error);
     }];

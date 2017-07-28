@@ -11,7 +11,7 @@
 #import "WYChannelView.h"
 #import "WYNewsListViewController.h"
 
-@interface WYHomeViewController ()
+@interface WYHomeViewController ()<UIPageViewControllerDataSource>
 @property (nonatomic, weak) WYChannelView *channelView;
 @property (nonatomic, weak) UIPageViewController *pageViewController;
 @end
@@ -23,9 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupUI];
+    _channelList = [WYChannel channels];
     
-    [self loadData];
+    [self setupUI];
     
     self.channelView.channelList = _channelList;
 }
@@ -46,7 +46,7 @@
     // setup page view controller
     UIPageViewController *pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:0];
     
-    WYNewsListViewController *newsListVC = [WYNewsListViewController new];
+    WYNewsListViewController *newsListVC = [[WYNewsListViewController alloc] initWithChennalIndex:0 tid:_channelList[0].tid];
     
     [pageViewController setViewControllers:@[newsListVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -61,22 +61,50 @@
         make.top.equalTo(self.channelView.mas_bottom);
         make.bottom.equalTo(self.view);
     }];
-}
-
-/**
- * 加载数据
- */
-- (void)loadData{
-    [self loadChannelList];
-}
-
-- (void)loadChannelList{
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"topic_news.json" ofType:nil];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-    NSArray *array = dict[@"tList"];
     
-    _channelList = [NSArray yy_modelArrayWithClass:[WYChannel class] json:array];
+    // set page view controller's datasource & delegate
+    pageViewController.dataSource = self;
 }
+
+
+#pragma mark - UIPageViewControllerDataSource
+
+// 返回前一个控制器
+- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController{
+    // 获取当前显示频道的索引（让控制器来保存索引），-1
+    WYNewsListViewController *currentVC = (WYNewsListViewController *)viewController;
+    NSInteger currentIndex = currentVC.index;
+    if (currentIndex == 0) {
+        NSLog(@"没有了");
+        return nil;
+    }
+    NSInteger afterIndex = currentIndex - 1;
+    
+    // 根据新的索引创建控制器，
+    WYNewsListViewController *vc = [[WYNewsListViewController alloc] initWithChennalIndex:afterIndex tid:_channelList[afterIndex].tid];
+    
+    return vc;
+}
+
+// 返回后面一个控制器
+- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController{
+    // 获取当前显示频道的索引（让控制器来保存索引），+1
+    WYNewsListViewController *currentVC = (WYNewsListViewController *)viewController;
+    NSInteger currentIndex = currentVC.index;
+    NSInteger afterIndex = currentIndex + 1;
+    
+    // 根据新的索引创建控制器，
+    WYNewsListViewController *vc = [[WYNewsListViewController alloc] initWithChennalIndex:afterIndex tid:_channelList[afterIndex].tid];
+    
+    return vc;
+    
+}
+
+
+
+
+
+
+
 
 @end
