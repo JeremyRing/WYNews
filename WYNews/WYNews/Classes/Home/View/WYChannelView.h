@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @class  WYChannel;
-@interface WYChannelView : UIView
+@interface WYChannelView : UIControl
 + (instancetype)channelView;
 
 @property (nonatomic, strong) NSArray <WYChannel *> *channelList;
+
+@property (nonatomic, assign, readonly) NSInteger seletedIndex;
 
 - (void)setChannelSelected:(NSInteger)index scale:(CGFloat)scale;
 @end

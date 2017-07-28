@@ -59,9 +59,33 @@
         
         // 设置序号
         l.tag = index++;
+        
+        // 添加点击手势，监听点击事件
+        l.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTheLabel:)];
+        [l addGestureRecognizer:tap];
     }
     
     [self setChannelSelected:0 scale:1];
+}
+
+- (void)tapTheLabel:(UITapGestureRecognizer *)gesture{
+    
+    if (_seletedIndex == gesture.view.tag) {
+        return;
+    }
+    
+    // 取消之前选中状态
+    [self setChannelSelected:_seletedIndex scale:0];
+    
+    // 设置新的index
+    _seletedIndex = gesture.view.tag;
+    
+    // 设置新的选中状态
+    [self setChannelSelected:_seletedIndex scale:1];
+    
+    // 发送事件
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 - (void)setChannelSelected:(NSInteger)index scale:(CGFloat)scale{
