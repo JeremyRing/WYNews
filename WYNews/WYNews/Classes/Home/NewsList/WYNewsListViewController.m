@@ -10,7 +10,9 @@
 #import "WYNewsListCell.h"
 #import "WYNewsItem.h"
 
-@interface WYNewsListViewController ()<UITableViewDataSource>
+NSString *const NewsListControllerSelectDocNotification = @"NewsListControllerSelectDocNotification";
+
+@interface WYNewsListViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, weak) UITableView *tableView;
 @end
 
@@ -51,6 +53,7 @@ static NSString *headerCellId = @"headerCellId";
     self.view = tableView;
     
     tableView.dataSource = self;
+    tableView.delegate = self;
     
     self.tableView = tableView;
     
@@ -109,6 +112,14 @@ static NSString *headerCellId = @"headerCellId";
     }
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    WYNewsItem *item = _newsItems[indexPath.row];
+    // 发送通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:NewsListControllerSelectDocNotification object:item];
 }
 
 #pragma mark - obj method

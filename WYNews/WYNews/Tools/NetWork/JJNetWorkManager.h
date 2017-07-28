@@ -15,4 +15,6 @@
  * 获取新闻数据列表
  */
 - (void)newsListWithChannel:(NSString *)channel start:(NSInteger)start completion:(void (^)(NSArray *, NSError *))completion;
+
+- (void)newsDetailWithDocid:(NSString *)docid completion:(void (^)(NSDictionary *dict,NSError *error))completion;
 @end

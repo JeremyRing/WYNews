@@ -10,6 +10,10 @@
 #import "WYChannel.h"
 #import "WYChannelView.h"
 #import "WYNewsListViewController.h"
+#import "WYDetailViewController.h"
+#import "WYNewsItem.h"
+
+extern NSString *const NewsListControllerSelectDocNotification;
 
 @interface WYHomeViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
@@ -51,6 +55,25 @@
     [self setupUI];
     
     self.channelView.channelList = _channelList;
+    
+    // 添加 通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigateToDetailPage:) name:NewsListControllerSelectDocNotification object:nil];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+- (void)navigateToDetailPage:(NSNotification *)n{
+    
+    WYNewsItem *item = n.object;
+    
+    WYDetailViewController *vc = [WYDetailViewController new];
+    vc.docid = item.docid;
+    
+    vc.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /// 搭建界面
