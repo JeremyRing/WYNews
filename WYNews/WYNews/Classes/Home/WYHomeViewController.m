@@ -120,8 +120,8 @@
     _currentIndex = ((WYNewsListViewController *)pageViewController.viewControllers[0]).index;
     _nextIndex = ((WYNewsListViewController *)pendingViewControllers[0]).index;
     
-    // NSLog(@"%zd %zd",_currentIndex,_nextIndex);
     
+    NSLog(@"监听 %zd",_nextIndex);
     // 添加 KVO 监听
     [_pageViewScrollView addObserver:self forKeyPath:@"contentOffset" options:0 context:NULL];
 }
@@ -129,9 +129,17 @@
 // 结束转场的代理方法
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed{
     
-    // _currentIndex = ((WYNewsListViewController *)previousViewControllers[0]).index;
+    NSLog(@"移除 %zd finishi %d complete %d",_nextIndex,finished,completed);
     // 移除 KVO 监听
-    [_pageViewScrollView removeObserver:self forKeyPath:@"contentOffset"];
+    // 保证 在多次删除一个监听者时程序不崩溃
+    @try {
+        [_pageViewScrollView removeObserver:self forKeyPath:@"contentOffset"];
+    } @catch (NSException *exception) {
+        NSLog(@"ex");
+    } @finally {
+        
+    }
+    
 }
 
 #pragma mark - UIPageViewControllerDataSource
