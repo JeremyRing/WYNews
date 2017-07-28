@@ -12,4 +12,6 @@
 + (instancetype)channelView;
 
 @property (nonatomic, strong) NSArray <WYChannel *> *channelList;
+
+- (void)setChannelSelected:(NSInteger)index;
 @end

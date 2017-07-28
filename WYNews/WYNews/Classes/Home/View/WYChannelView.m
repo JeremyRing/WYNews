@@ -6,6 +6,9 @@
 //  Copyright © 2017年 itcast. All rights reserved.
 //
 
+#define DefaultFontSize 14
+#define BigFontSize 18
+
 #import "WYChannelView.h"
 #import "WYChannel.h"
 
@@ -30,12 +33,14 @@
     
     CGFloat x = edgeMargin;
     
+    NSUInteger index = 0;
+    
     for (WYChannel *channel in _channelList) {
         // 创建 label
-        UILabel *l = [UILabel cz_labelWithText:channel.tname fontSize:18 color:[UIColor blackColor]];
+        UILabel *l = [UILabel cz_labelWithText:channel.tname fontSize:BigFontSize color:[UIColor blackColor]];
         
         l.textAlignment = NSTextAlignmentCenter;
-        l.font = [UIFont systemFontOfSize:14];
+        l.font = [UIFont systemFontOfSize:DefaultFontSize];
         
         [self.scrollView addSubview:l];
         
@@ -51,7 +56,19 @@
         
         // 设置scrollView 滚动范围
         self.scrollView.contentSize = CGSizeMake(x + edgeMargin, 0);
+        
+        // 设置序号
+        l.tag = index++;
     }
+    
+    [self setChannelSelected:0];
+}
+
+- (void)setChannelSelected:(NSInteger)index{
+    UILabel *l = (UILabel *)self.scrollView.subviews[index];
+    // 设置颜色和字体
+    l.font = [UIFont systemFontOfSize:BigFontSize];
+    l.textColor = [UIColor redColor];
 }
 
 @end
