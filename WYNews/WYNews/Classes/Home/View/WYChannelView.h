@@ -13,5 +13,5 @@
 
 @property (nonatomic, strong) NSArray <WYChannel *> *channelList;
 
-- (void)setChannelSelected:(NSInteger)index;
+- (void)setChannelSelected:(NSInteger)index scale:(CGFloat)scale;
 @end

@@ -61,14 +61,20 @@
         l.tag = index++;
     }
     
-    [self setChannelSelected:0];
+    [self setChannelSelected:0 scale:1];
 }
 
-- (void)setChannelSelected:(NSInteger)index{
+- (void)setChannelSelected:(NSInteger)index scale:(CGFloat)scale{
     UILabel *l = (UILabel *)self.scrollView.subviews[index];
     // 设置颜色和字体
-    l.font = [UIFont systemFontOfSize:BigFontSize];
-    l.textColor = [UIColor redColor];
+    
+    // 14 - 18
+    // 0  -  1
+    
+    CGFloat fontSize = DefaultFontSize + (BigFontSize - DefaultFontSize) * scale;
+    
+    l.font = [UIFont systemFontOfSize:fontSize];
+    l.textColor = [UIColor colorWithRed:scale green:0 blue:0 alpha:1];
 }
 
 @end

@@ -11,9 +11,32 @@
 #import "WYChannelView.h"
 #import "WYNewsListViewController.h"
 
-@interface WYHomeViewController ()<UIPageViewControllerDataSource>
+@interface WYHomeViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+
+/**
+ * 频道视图
+ */
 @property (nonatomic, weak) WYChannelView *channelView;
+
+/**
+ * 分页控制器
+ */
 @property (nonatomic, weak) UIPageViewController *pageViewController;
+
+/**
+ * 分页控制器里面的scrollview
+ */
+@property (nonatomic, weak) UIScrollView *pageViewScrollView;
+
+/**
+ * 当前显示页面的index
+ */
+@property (nonatomic, assign) NSInteger currentIndex;
+
+/**
+ * 将要显示页面的index
+ */
+@property (nonatomic, assign) NSInteger nextIndex;
 @end
 
 @implementation WYHomeViewController{
@@ -46,7 +69,8 @@
     // setup page view controller
     UIPageViewController *pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:0];
     
-    WYNewsListViewController *newsListVC = [[WYNewsListViewController alloc] initWithChennalIndex:0 tid:_channelList[0].tid];
+    _currentIndex = 0;
+    WYNewsListViewController *newsListVC = [[WYNewsListViewController alloc] initWithChennalIndex:0 tid:_channelList[_currentIndex].tid];
     
     [pageViewController setViewControllers:@[newsListVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -64,24 +88,68 @@
     
     // set page view controller's datasource & delegate
     pageViewController.dataSource = self;
+    pageViewController.delegate = self;
+    
+    // KVO observe page view controller's scrollview's contentOffset
+    UIScrollView *scrollView = (UIScrollView *)pageViewController.view.subviews[0];
+    _pageViewScrollView = scrollView;
+    
 }
 
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
+    // 思考：移动偏移量(0-1) 和 channel字体大小之间的关系(14-18)
+    
+    int distance = ABS(_pageViewScrollView.contentOffset.x - _pageViewScrollView.bounds.size.width);
+    
+    float scale = distance / _pageViewScrollView.bounds.size.width;
+    
+    // 设置当前channel颜色大小，这里不能直接获取到当前channel.tid,所以要提前保存tid
+    [_channelView setChannelSelected:_currentIndex scale:1-scale];
+    [_channelView setChannelSelected:_nextIndex scale:scale];
+    
+}
+
+#pragma mark - UIPageViewControllerDelegate
+// 开始转场的代理方法
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers{
+
+    // 只能在转场动画一开始的时候设置，当前index 和 下一页index
+    _currentIndex = ((WYNewsListViewController *)pageViewController.viewControllers[0]).index;
+    _nextIndex = ((WYNewsListViewController *)pendingViewControllers[0]).index;
+    
+    // NSLog(@"%zd %zd",_currentIndex,_nextIndex);
+    
+    // 添加 KVO 监听
+    [_pageViewScrollView addObserver:self forKeyPath:@"contentOffset" options:0 context:NULL];
+}
+
+// 结束转场的代理方法
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed{
+    
+    // _currentIndex = ((WYNewsListViewController *)previousViewControllers[0]).index;
+    // 移除 KVO 监听
+    [_pageViewScrollView removeObserver:self forKeyPath:@"contentOffset"];
+}
 
 #pragma mark - UIPageViewControllerDataSource
-
+/// page view controller 最多能准备三个控制器，当需要准备新的控制器的时候才会调用数据源方法
 // 返回前一个控制器
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController{
     // 获取当前显示频道的索引（让控制器来保存索引），-1
     WYNewsListViewController *currentVC = (WYNewsListViewController *)viewController;
     NSInteger currentIndex = currentVC.index;
+    
+    // 判断越界
     if (currentIndex == 0) {
-        NSLog(@"没有了");
         return nil;
     }
-    NSInteger afterIndex = currentIndex - 1;
+    NSInteger nextIndex = currentIndex - 1;
     
     // 根据新的索引创建控制器，
-    WYNewsListViewController *vc = [[WYNewsListViewController alloc] initWithChennalIndex:afterIndex tid:_channelList[afterIndex].tid];
+    WYNewsListViewController *vc = [[WYNewsListViewController alloc] initWithChennalIndex:nextIndex tid:_channelList[nextIndex].tid];
     
     return vc;
 }
@@ -91,10 +159,16 @@
     // 获取当前显示频道的索引（让控制器来保存索引），+1
     WYNewsListViewController *currentVC = (WYNewsListViewController *)viewController;
     NSInteger currentIndex = currentVC.index;
-    NSInteger afterIndex = currentIndex + 1;
     
+    // 判断越界
+    if (_currentIndex == _channelList.count - 1) {
+        return nil;
+    }
+    
+    NSInteger nextIndex = currentIndex + 1;
+
     // 根据新的索引创建控制器，
-    WYNewsListViewController *vc = [[WYNewsListViewController alloc] initWithChennalIndex:afterIndex tid:_channelList[afterIndex].tid];
+    WYNewsListViewController *vc = [[WYNewsListViewController alloc] initWithChennalIndex:nextIndex tid:_channelList[nextIndex].tid];
     
     return vc;
     
