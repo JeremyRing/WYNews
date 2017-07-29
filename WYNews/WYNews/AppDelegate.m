@@ -29,8 +29,21 @@
     
     [self.window makeKeyAndVisible];
     
+    [self setAppearance];
+    
     return YES;
 }
 
-
+- (void)setAppearance{
+    [[UITabBar appearance] setTintColor:[UIColor cz_colorWithHex:0xDF0000]];
+    
+    
+    [[UINavigationBar appearance] setTranslucent:NO];
+    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor cz_colorWithHex:0xDD3237]];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
 @end

@@ -81,7 +81,7 @@
             
             html = [html stringByReplacingOccurrencesOfString:imgDict[@"ref"] withString:replaceString];
         }
-        NSLog(@"%@",html);
+//        NSLog(@"%@",html);
         [_webView loadHTMLString:html baseURL:nil];
     }];
 }

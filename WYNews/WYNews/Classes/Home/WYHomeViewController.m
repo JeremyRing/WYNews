@@ -47,6 +47,11 @@ extern NSString *const NewsListControllerSelectDocNotification;
     NSArray <WYChannel *>*_channelList;
 }
 
+// 隐藏系统 导航栏
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -61,7 +66,7 @@ extern NSString *const NewsListControllerSelectDocNotification;
 }
 
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)navigateToDetailPage:(NSNotification *)n{
@@ -78,13 +83,29 @@ extern NSString *const NewsListControllerSelectDocNotification;
 
 /// 搭建界面
 - (void)setupUI{
+    
+    [self setStatusBarColor];
+    
+    // 自定义 导航栏
+    UINavigationBar *navigationBar = [[UINavigationBar alloc] init];
+    
+    navigationBar.backgroundColor = [UIColor cz_colorWithHex:0xDD3237];
+    
+    [self.view addSubview:navigationBar];
+    
+    [navigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(64);
+        make.top.equalTo(self.mas_topLayoutGuideBottom);
+    }];
+    
     WYChannelView *channelView = [WYChannelView channelView];
     [self.view addSubview:channelView];
     
     [channelView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(38);
-        make.top.equalTo(self.mas_topLayoutGuideBottom);
+        make.top.equalTo(navigationBar.mas_bottom);
     }];
     
     self.channelView = channelView;
@@ -122,6 +143,13 @@ extern NSString *const NewsListControllerSelectDocNotification;
     UIScrollView *scrollView = (UIScrollView *)pageViewController.view.subviews[0];
     _pageViewScrollView = scrollView;
     
+}
+
+- (void)setStatusBarColor{
+    // 设置 status bar 的颜色
+    UIView *statusBarView = [[UIView alloc]   initWithFrame:CGRectMake(0, -20,[UIScreen mainScreen].bounds.size.width, 20)];
+    statusBarView.backgroundColor = [UIColor cz_colorWithHex:0xDD3237];
+    [[UINavigationBar appearance] addSubview:statusBarView];
 }
 
 #pragma mark - event Observe method

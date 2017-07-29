@@ -18,13 +18,7 @@
     [super viewDidLoad];
     
     [self setChildViewControllers];
-    
-    [self setAppearance];
-}
 
-- (void)setAppearance{
-//    [self.tabBar setTintColor:[UIColor cz_colorWithHex:0xDF0000]];
-    [[UITabBar appearance] setTintColor:[UIColor cz_colorWithHex:0xDF0000]];
 }
 
 - (void)setChildViewControllers{
