@@ -84,8 +84,6 @@ extern NSString *const NewsListControllerSelectDocNotification;
 /// 搭建界面
 - (void)setupUI{
     
-    [self setStatusBarColor];
-    
     // 自定义 导航栏
     UINavigationBar *navigationBar = [[UINavigationBar alloc] init];
     
@@ -99,6 +97,11 @@ extern NSString *const NewsListControllerSelectDocNotification;
         make.top.equalTo(self.mas_topLayoutGuideBottom);
     }];
     
+    UINavigationItem *item = [UINavigationItem new];
+    item.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_holder_small"]];
+    navigationBar.items = @[item];
+    
+    // 频道视图
     WYChannelView *channelView = [WYChannelView channelView];
     [self.view addSubview:channelView];
     
@@ -142,6 +145,8 @@ extern NSString *const NewsListControllerSelectDocNotification;
     // KVO observe page view controller's scrollview's contentOffset
     UIScrollView *scrollView = (UIScrollView *)pageViewController.view.subviews[0];
     _pageViewScrollView = scrollView;
+    
+    [self setStatusBarColor];
     
 }
 
